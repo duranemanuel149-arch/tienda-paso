@@ -1623,3 +1623,31 @@ select {
     transform: translateX(-50%);
   }
 }
+
+/* Estrellas de reseñas */
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+.stars {
+  --p: calc(var(--v) / 5 * 100%);
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  line-height: 1;
+  background: linear-gradient(90deg, var(--accent) var(--p), #d9d2c6 var(--p));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.stars::before {
+  content: "★★★★★";
+}
+.rev {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.qv .rating {
+  margin: 0 0 6px;
+}

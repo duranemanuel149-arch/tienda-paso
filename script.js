@@ -230,6 +230,27 @@ const dibujo = (p, c) =>
     : p.cat === "camisas"
       ? camisa(c || p.suela)
       : zapato(p.suela, c || "#fff");
+// Reseñas de ejemplo: id del producto -> [promedio, cantidad de reseñas]
+const RESENAS = {
+  1: [4.7, 128],
+  2: [4.5, 86],
+  3: [4.3, 54],
+  4: [4.8, 203],
+  5: [4.4, 41],
+  6: [4.6, 67],
+  7: [4.5, 112],
+  8: [4.7, 95],
+  9: [4.2, 38],
+  10: [4.6, 246],
+  11: [4.8, 174],
+  12: [4.1, 29],
+};
+const estrellas = (p) => {
+  const r = RESENAS[p.id];
+  if (!r) return "";
+  const nota = r[0].toFixed(1).replace(".", ",");
+  return `<div class="rating"><span class="stars" style="--v:${r[0]}" role="img" aria-label="Valoración ${nota} de 5"></span><span class="rev">${nota} (${r[1]})</span></div>`;
+};
 const colorActual = (p) =>
   p.colores &&
   p.colores[colorSel[p.id] ?? p.colores.findIndex((c) => !c.agotado)];
@@ -334,7 +355,7 @@ function mostrar() {
       <div class="info">
         <h3>${p.nombre}</h3>
         <span class="price">${formato(p.precio)}${p.antes ? `<span class="old">${formato(p.antes)}</span>` : ""}</span>
-        <div class="meta"><span class="cat">${nombresCat[p.cat]}</span>${swatches(p)}</div>
+        <div class="meta"><span class="cat">${nombresCat[p.cat]}</span>${estrellas(p)}${swatches(p)}</div>
         <button class="add" ${colorActual(p) && colorActual(p).agotado ? "disabled" : ""}>${colorActual(p) && colorActual(p).agotado ? "Agotado" : "Agregar a la bolsa"}</button>
       </div>
     </article>`,
@@ -756,6 +777,7 @@ function vistaRapida(id) {
     p.nombre,
     `<div class="qv"><div class="qv-img">${imagen(p, colorActual(p))}</div><div>
       <p class="cat">${nombresCat[p.cat]}</p>
+      ${estrellas(p)}
       <p class="qv-price"><strong>${formato(p.precio)}</strong>${p.antes ? `<span class="old">${formato(p.antes)}</span>` : ""}</p>
       <p>${DESC[p.cat]}</p>
       ${swatches(p, "data-qc")}
