@@ -904,3 +904,12 @@ modal.addEventListener("click", (e) => {
   mostrar();
   vistaRapida(id);
 });
+
+// Botón de volver arriba: aparece al bajar y sube suavemente al inicio
+const subir = $("subir");
+window.addEventListener(
+  "scroll",
+  () => subir.classList.toggle("on", window.scrollY > 600),
+  { passive: true },
+);
+subir.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
